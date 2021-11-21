@@ -134,8 +134,6 @@ class Infix:
 
   def convertToPostfix(self):
     expression = self.expression
-    print(self.expression)
-
     stack = Stack()
     result = []
 
@@ -165,7 +163,7 @@ class Infix:
         stack.pop()
       
       return result
-      
+
     except:
       return 'Error! The expression you entered is not acceptable. Please try again.'
 
@@ -197,31 +195,43 @@ class Infix:
     except:
       return 'Error! The expression you entered is not acceptable. Please try again.'
 
+ 
+def main():
+    print("Select input expression: \n (1) Infix\n (2) Prefix\n (3) Postfix\n")
+    type_expression = input("Type the number of chosen expression: ")
+    # input_expression = input(f"Enter your infix expression: ")
 
-        
-        
+    if type_expression == "1":
+        input_expression = input(f"Enter your infix expression: ")
+        input_expression_list = input_expression.split()
+        _expression = Infix(input_expression_list)
+        print()
+        print("Your Infix Expression:", input_expression)
+        print("Answer:", _expression.evaluate())
+        print() 
+
+    elif type_expression == "2":
+        input_expression = input(f"Enter your prefix expression: ")
+        input_expression_list = input_expression.split()
+        _expression = Prefix(input_expression_list)
+        print()
+        print("Your Prefix Expression:", input_expression)
+        print("Answer:", _expression.evaluate())
+        print() 
+
+    elif type_expression == "3":
+        input_expression = input(f"Enter your postfix expression: ")
+        input_expression_list = input_expression.split()
+        _expression = Postfix(input_expression_list)
+        print()
+        print("Your Postfix Expression:", input_expression) 
+        print("Answer:", _expression.evaluate())
+        print()
+    
+    else:
+        return "Invalid type of expression! Please try again! :("  
 
 
-        
-
-input_expression = "- + 8 / 6 3 2"
-# input_expression = "(1 + 2) * 3"
-
-input_expression_list = input_expression.split()
-
-# print(input_expression_list)
-
-# print(dir(operator))
-
-# postfix = Postfix(input_expression)
-# print(postfix.evaluate())
-
-# infix = Infix(input_expression_list)
-# print(infix.convertToPostfix())
-# print(infix.evaluate())
-
-prefix = Prefix(input_expression_list)
-print(prefix.evaluate())
-
-# lst = [1, 2, 5, 4]
-# print(lst[::-1])
+if __name__ == '__main__':
+  main()
+      
