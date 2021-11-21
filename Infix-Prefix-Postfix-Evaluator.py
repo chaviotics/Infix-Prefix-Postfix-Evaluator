@@ -1,4 +1,6 @@
 import operator 
+
+# this dictionary 'operations' is used to 'covert' stringed operators to actual operators.
 operations = {
     '+' : operator.add,
     '-' : operator.sub,
@@ -92,25 +94,36 @@ class Postfix:
     except:
       return 'Error! The expression you entered is not acceptable. Please try again.'
 
+
 class Prefix:
   def __init__(self, expression: list):
     self.expression = expression
 
   def evaluate(self):
-    expression = self.expression
+    expression = self.expression[::-1] # reverse the list
     stack = Stack()
     result = 0
 
     try:
       for i in range(len(expression)):
-        pass
 
+        if isOperand(expression[i]):
+          stack.push(expression[i])
+      
+        elif isOperator(expression[i]):
+          op1 = int(stack.top())
+          stack.pop()
+          op2 = int(stack.top())
+          stack.pop()
+          res = operations[expression[i]](op1, op2)
+          stack.push(res)
+        
       while not stack.isEmpty():
         result += stack.top()
         stack.pop()
       
       return result
-
+    
     except:
       return 'Error! The expression you entered is not acceptable. Please try again.'
 
@@ -126,38 +139,41 @@ class Infix:
     stack = Stack()
     result = []
 
-    for i in range(len(expression)):
-      if isOperand(expression[i]):
-        result.append(expression[i])
+    try:
+      for i in range(len(expression)):
+        if isOperand(expression[i]):
+          result.append(expression[i])
 
-      elif isOperator(expression[i]):
-        while not stack.isEmpty() and hasHigherPrecedence(stack.top(), expression[i]) and stack.top() != '(':
-          result.append(stack.top())
-          stack.pop()
+        elif isOperator(expression[i]):
+          while not stack.isEmpty() and hasHigherPrecedence(stack.top(), expression[i]) and stack.top() != '(':
+            result.append(stack.top())
+            stack.pop()
 
-        stack.push(expression[i])
+          stack.push(expression[i])
+        
+        elif expression[i] == '(':
+          stack.push(expression[i]) 
+
+        elif expression[i] == ')':
+          while not stack.isEmpty() and stack.top() != '(':
+            result += stack.top()
+            stack.pop()
+          stack.pop() # pops the opening parenthesis
+
+      while not stack.isEmpty():
+        result += stack.top()
+        stack.pop()
       
-      elif expression[i] == '(':
-        stack.push(expression[i]) 
-
-      elif expression[i] == ')':
-        while not stack.isEmpty() and stack.top() != '(':
-          result += stack.top()
-          stack.pop()
-        stack.pop() # pops the opening parenthesis
-
-    while not stack.isEmpty():
-      result += stack.top()
-      stack.pop()
-    
-    return result
+      return result
+      
+    except:
+      return 'Error! The expression you entered is not acceptable. Please try again.'
 
   def evaluate(self):
     expression = self.convertToPostfix()
     stack = Stack()
     result = 0
 
-    # print(expression)
     try:
       for i in range(len(expression)):
 
@@ -188,7 +204,7 @@ class Infix:
 
         
 
-input_expression = "( 1 + 2 ) * ( 15 / 3 )"
+input_expression = "- + 8 / 6 3 2"
 # input_expression = "(1 + 2) * 3"
 
 input_expression_list = input_expression.split()
@@ -200,6 +216,12 @@ input_expression_list = input_expression.split()
 # postfix = Postfix(input_expression)
 # print(postfix.evaluate())
 
-infix = Infix(input_expression_list)
+# infix = Infix(input_expression_list)
 # print(infix.convertToPostfix())
-print(infix.evaluate())
+# print(infix.evaluate())
+
+prefix = Prefix(input_expression_list)
+print(prefix.evaluate())
+
+# lst = [1, 2, 5, 4]
+# print(lst[::-1])
