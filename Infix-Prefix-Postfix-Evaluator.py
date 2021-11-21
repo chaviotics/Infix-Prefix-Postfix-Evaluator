@@ -199,11 +199,10 @@ class Infix:
 def main():
     print("Select input expression: \n (1) Infix\n (2) Prefix\n (3) Postfix\n")
     type_expression = input("Type the number of chosen expression: ")
-    # input_expression = input(f"Enter your infix expression: ")
 
     if type_expression == "1":
         input_expression = input(f"Enter your infix expression: ")
-        input_expression_list = input_expression.split()
+        input_expression_list = input_expression.split() # turns expression string input into a list 
         _expression = Infix(input_expression_list)
         print()
         print("Your Infix Expression:", input_expression)
@@ -212,7 +211,7 @@ def main():
 
     elif type_expression == "2":
         input_expression = input(f"Enter your prefix expression: ")
-        input_expression_list = input_expression.split()
+        input_expression_list = input_expression.split() # turns expression string input into a list 
         _expression = Prefix(input_expression_list)
         print()
         print("Your Prefix Expression:", input_expression)
@@ -221,7 +220,7 @@ def main():
 
     elif type_expression == "3":
         input_expression = input(f"Enter your postfix expression: ")
-        input_expression_list = input_expression.split()
+        input_expression_list = input_expression.split() # turns expression string input into a list 
         _expression = Postfix(input_expression_list)
         print()
         print("Your Postfix Expression:", input_expression) 
